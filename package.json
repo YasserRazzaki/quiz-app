@@ -3,9 +3,10 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "start": "next start",
+    "seed": "node -r dotenv/config ./scripts/seed.js",
     "prettier": "prettier --write --ignore-unknown .",
-    "prettier:check": "prettier --check --ignore-unknown .",
-    "start": "next start"
+    "prettier:check": "prettier --check --ignore-unknown ."
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -38,4 +39,5 @@
   "engines": {
     "node": ">=18.17.0"
   }
+  
 }

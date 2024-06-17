@@ -29,7 +29,7 @@ const handleRegister = async (req: NextApiRequest, res: NextApiResponse) => {
     const client = await pool.connect();
 
     const result = await client.query(
-      'INSERT INTO users (nom, email, motdepasse) VALUES ($1, $2, $3) RETURNING *',
+      'INSERT INTO utilisateurs (nom, email, motdepasse) VALUES ($1, $2, $3) RETURNING *',
       [nom, email, hashedPassword]
     );
 

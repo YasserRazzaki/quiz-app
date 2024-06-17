@@ -1,8 +1,7 @@
-import { users } from '@/app/lib/placeholder-data';
+
 import Link from 'next/link';
 export default async function Page() { 
   return (
-    <main>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="p-4">
     <h1 className="text-2xl font-bold mb-4">You are connected, Welcome !</h1>
@@ -17,6 +16,5 @@ export default async function Page() {
         <a className="btn btn-error text-white">View Results</a>
       </Link>
     </div></div></div>
-    </main>
   );
 }

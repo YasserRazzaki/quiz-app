@@ -1,5 +1,6 @@
 "use client";
 import { useState, FormEvent } from 'react';
+import '@/app/ui/global.css';
 import axios from 'axios';
 
 const Register = () => {

@@ -1,4 +1,4 @@
-
+import '@/app/ui/global.css';
 import Link from 'next/link';
 export default async function Page() { 
   return (

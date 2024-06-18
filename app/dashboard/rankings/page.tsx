@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
 import { getRankingsApi, getRankingsMap } from '../../lib/data';
 import { RankingAPI, RankingMap } from '../../lib/definitions';
@@ -12,8 +12,13 @@ const Rankings = () => {
     const fetchRankings = async () => {
       try {
         setLoading(true);
+        console.log('Fetching rankings...');
+
         const apiData = await getRankingsApi();
+        console.log('Rankings API data:', apiData);
+
         const mapData = await getRankingsMap();
+        console.log('Ranking Map data:', mapData);
 
         // Trier les données par score décroissant
         apiData.sort((a, b) => b.score - a.score);
@@ -21,9 +26,9 @@ const Rankings = () => {
 
         setRankingsAPI(apiData);
         setRankingMap(mapData);
-        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch rankings:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -31,7 +36,7 @@ const Rankings = () => {
     // Charger les données initiales
     fetchRankings();
 
-    // Rafraîchir les données toutes les 60 secondes (60000 ms)
+    // Rafraîchir les données toutes les 10 secondes (10000 ms)
     const refreshInterval = setInterval(fetchRankings, 10000);
 
     // Nettoyer l'intervalle lors du démontage du composant

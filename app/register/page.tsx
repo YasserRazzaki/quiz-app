@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { createUser } from '../../lib/actions';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Swal from 'sweetalert2';
+import { createUser } from '../lib/actions';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +12,7 @@ const RegisterPage = () => {
     email: '',
     motdepasse: ''
   });
+  const router = useRouter();
   const [message, setMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +31,29 @@ const RegisterPage = () => {
     try {
       const response = await createUser({}, data);
       setMessage(response.message);
+
+      if (response.message === 'User created successfully!') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Inscription réussie',
+          text: 'Votre compte a été créé avec succès !',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          router.push('/login'); // Redirection vers la page de connexion
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: response.message,
+        });
+      }
     } catch (error) {
-      setMessage(`Erreur lors de la création de l'utilisateur. Erreur: ${error.message}`);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: `Une erreur est survenue. Veuillez réessayer plus tard. Erreur: ${error.message}`,
+      });
     }
   };
 
@@ -81,6 +106,11 @@ const RegisterPage = () => {
             S'inscrire
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <Link href="/login" legacyBehavior>
+            <a className="text-blue-500 hover:underline">Se connecter</a>
+          </Link>
+        </div>
       </div>
     </div>
   );

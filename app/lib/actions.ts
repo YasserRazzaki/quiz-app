@@ -24,6 +24,7 @@ export async function authenticate(
     throw error;
   }
 }
+import bcrypt from 'bcrypt';
 
 export async function createUser(prevState: any, formData: FormData) {
   const nom = formData.get('nom') as string;
@@ -42,9 +43,10 @@ export async function createUser(prevState: any, formData: FormData) {
   }
 
   try {
+    const hashedPassword = await bcrypt.hash(motdepasse, 10);
     await sql`
-      INSERT INTO inscrits (nom, email, motdepasse)
-      VALUES (${nom}, ${email}, ${motdepasse})
+      INSERT INTO utilisateurs (nom, email, motdepasse, date_inscription)
+      VALUES (${nom}, ${email}, ${hashedPassword}, CURRENT_TIMESTAMP)
     `;
     return { message: 'User created successfully!' };
   } catch (error) {

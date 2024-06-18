@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 async function seedUsers(client) {
   await client.sql`
     CREATE TABLE IF NOT EXISTS utilisateurs (
-      idUtilisateurs VARCHAR(50) PRIMARY KEY,
+      id SERIAL PRIMARY KEY,
       nom VARCHAR(50),
       email VARCHAR(50) UNIQUE,
       motdepasse TEXT NOT NULL,
@@ -15,20 +15,20 @@ async function seedUsers(client) {
 
   console.log(`Created "utilisateurs" table`);
 
-  const insertedUsers = await Promise.all(
+  /* const insertedUsers = await Promise.all(
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
       return client.sql`
-        INSERT INTO utilisateurs (idUtilisateurs, nom, email, motdepasse, date_inscription)
+        INSERT INTO utilisateurs (id, nom, email, motdepasse, date_inscription)
         VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}, CURRENT_TIMESTAMP )
-        ON CONFLICT (idUtilisateurs) DO NOTHING;
+        ON CONFLICT (id) DO NOTHING;
       `;
     }),
   );
 
   console.log(`Seeded ${insertedUsers.length} users`);
-}
-
+*/
+} 
 async function seedInscrits(client) {
   await client.sql`
     CREATE TABLE IF NOT EXISTS inscrits (
@@ -58,8 +58,9 @@ async function seedInscrits(client) {
 
 async function seedRankingsMap(client) {
   await client.sql`
+    DROP TABLE IF EXISTS classement_map;
     CREATE TABLE IF NOT EXISTS classement_map (
-      idclassement INT PRIMARY KEY,
+      idclassement SERIAL PRIMARY KEY,
       username VARCHAR(50),
       score INT,
       date_classement TIMESTAMP
@@ -70,8 +71,8 @@ async function seedRankingsMap(client) {
 
   const insertedRankings = await Promise.all(
     rankingsMap.map(ranking => client.sql`
-      INSERT INTO classement_map (idclassement, username,score, date_classement)
-      VALUES (${ranking.id}, ${ranking.username}, ${ranking.score}, CURRENT_TIMESTAMP)
+      INSERT INTO classement_map (username, score, date_classement)
+      VALUES (${ranking.username}, ${ranking.score}, CURRENT_TIMESTAMP)
       ON CONFLICT (idclassement) DO NOTHING;
     `)
   );

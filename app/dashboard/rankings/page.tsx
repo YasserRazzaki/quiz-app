@@ -11,6 +11,8 @@ const Rankings = () => {
     const fetchRankings = async () => {
       try {
         const data = await getRankingsApi();
+        // Trier les données par score décroissant
+        data.sort((a, b) => b.score - a.score);
         setRankings(data);
       } catch (error) {
         console.error('Failed to fetch rankings:', error);
@@ -20,6 +22,8 @@ const Rankings = () => {
     const fetchRankingMap = async () => {
       try {
         const data = await getRankingsMap();
+        // Trier les données par score décroissant
+        data.sort((a, b) => b.score - a.score);
         setRankingMap(data);
       } catch (error) {
         console.error('Failed to fetch ranking map:', error);
@@ -31,10 +35,10 @@ const Rankings = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="w-full mb-8">
-      <h1 className="text-2xl font-bold mb-4">Rankings API</h1>
-        <table className="min-w-full items table-auto bg-white border border-gray-300 mb-8">
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-4 space-y-8">
+      <div className="w-full max-w-4xl">
+        <h1 className="text-2xl font-bold mb-4">Rankings API</h1>
+        <table className="w-full table-auto bg-white border border-gray-300 mb-8">
           <thead>
             <tr>
               <th className="py-2 border border-gray-300">Username</th>
@@ -52,13 +56,12 @@ const Rankings = () => {
         </table>
       </div>
 
-      
-      <div className="w-full">
-      <h1 className="text-2xl font-bold mb-4">Ranking Map</h1>
-        <table className="min-w-full items table-auto bg-white border border-gray-300">
+      <div className="w-full max-w-4xl">
+        <h1 className="text-2xl font-bold mb-4">Ranking Map</h1>
+        <table className="w-full table-auto bg-white border border-gray-300">
           <thead>
             <tr>
-              <th className="py-2 border border-gray-300">Name</th>
+              <th className="py-2 border border-gray-300">Username</th>
               <th className="py-2 border border-gray-300">Score</th>
             </tr>
           </thead>

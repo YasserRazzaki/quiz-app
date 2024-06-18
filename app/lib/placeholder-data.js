@@ -52,84 +52,37 @@ const users = [
   },
 ];
 
-const quizzes = [
+const rankingsMap = [
   {
-    id: 'quiz1',
-    title: 'Math Quiz',
-    description: 'A simple quiz on basic mathematics',
-    numberOfQuestions: 5,
-    timeLimit: 600
-  },
-  {
-    id: 'quiz2',
-    title: 'Science Quiz',
-    description: 'Explore the wonders of science',
-    numberOfQuestions: 5,
-    timeLimit: 900
-  }
-];
-
-const questions = [
-  {
-    id: 'q1',
-    text: 'What is 2+2?',
-    quizId: 'quiz1'
-  },
-  {
-    id: 'q2',
-    text: 'What is the boiling point of water?',
-    quizId: 'quiz2'
-  }
-];
-
-const responses = [
-  {
-    id: 'r1',
-    text: '4',
-    isCorrect: true,
-    questionId: 'q1'
-  },
-  {
-    id: 'r2',
-    text: '22',
-    isCorrect: false,
-    questionId: 'q1'
-  },
-  {
-    id: 'r3',
-    text: '100°C',
-    isCorrect: true,
-    questionId: 'q2'
-  },
-  {
-    id: 'r4',
-    text: '90°C',
-    isCorrect: false,
-    questionId: 'q2'
-  }
-];
-
-const rankings = [
-  {
-    id: 'rank1',
+    id: 1,
     userId: '410544b2-4001-4271-9855-fec4b6a6442a',
-    quizId: 'quiz1',
-    score: 5,
+    score: 500,
     rankingDate: new Date()
   },
   {
-    id: 'rank2',
+    id: 2,
     userId: '12345678-1234-1234-1234-123456789abc',
-    quizId: 'quiz2',
-    score: 3,
+    score: 400,
+    rankingDate: new Date()
+  }
+];
+
+const rankingsAPI = [
+  {
+    id: 1,
+    userId: '410544b2-4001-4271-9855-fec4b6a6442a',
+    score: 500,
+    rankingDate: new Date()
+  },
+  {
+    id: 2,
+    userId: '12345678-1234-1234-1234-123456789abc',
+    score: 400,
     rankingDate: new Date()
   }
 ];
 
 module.exports = {
   users,
-  quizzes,
-  questions,
-  responses,
-  rankings
+  rankingsMap, rankingsAPI
 };

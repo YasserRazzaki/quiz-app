@@ -64,3 +64,15 @@ export async function recordRanking(ranking: Ranking): Promise<void> {
     throw new Error('Failed to record ranking.');
   }
 }
+
+export async function getRankings(): Promise<Ranking[]> {
+  try {
+    const rankings = await sql`SELECT * FROM classement`;
+    return rankings.rows as Ranking[];
+  } catch (error) {
+    console.error('Failed to fetch rankings:', error);
+    throw new Error('Failed to fetch rankings.');
+  }
+}
+
+

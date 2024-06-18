@@ -127,7 +127,6 @@ const rankings = [
 ];
 
 module.exports = {
-  users,
   quizzes,
   questions,
   responses,

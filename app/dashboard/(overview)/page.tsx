@@ -1,5 +1,7 @@
-import '@/app/ui/global.css';
+"use client";
+import LogoutButton from '@/app/ui/logout-button';
 import Link from 'next/link';
+
 export default async function Page() { 
   return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -15,6 +17,7 @@ export default async function Page() {
       <Link href="/dashboard/results" legacyBehavior>
         <a className="btn btn-error text-white">View Results</a>
       </Link>
+      <LogoutButton />
     </div></div></div>
   );
 }

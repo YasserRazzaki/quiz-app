@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -7,12 +6,11 @@ import L, { LeafletMouseEvent } from 'leaflet';
 import { Feature, Geometry, GeoJsonProperties } from 'geojson';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { createPool } from '@vercel/postgres';
+import '../../globals.css'; // Assurez-vous d'avoir un fichier CSS pour les styles globaux
+import { saveUserScore } from '../lib/actions'; // Importez la fonction saveUserScore
 
-// Importez le fichier GeoJSON avec require
 const worldGeoJSON = require('../data/world.geo.json-master/world.geo.json-master/countries.geo.json');
 
-// Fonction de vérification de type personnalisée
 function isGeoJSONLayer(layer: L.Layer): layer is L.GeoJSON<any> {
   return (layer as L.GeoJSON<any>).feature !== undefined;
 }
@@ -41,7 +39,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
       onEachFeature: (feature: Feature<Geometry, GeoJsonProperties>, layer) => {
         const countryName = feature.properties?.name;
 
-        // Vérifiez si le pays est verrouillé lors de la création de la couche
         if (countryName && lockedCountries.includes(countryName)) {
           (layer as L.Path).setStyle({ fillColor: 'green', fillOpacity: 1 });
         }
@@ -62,7 +59,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
                 MySwal.fire('Correct!', '', 'success');
                 (layer as L.Path).setStyle({ fillColor: 'green', fillOpacity: 1 });
                 setLockedCountries((prev) => [...prev, countryName]);
-                // Lock the country (make it unclickable)
                 layer.off('click');
               } else {
                 MySwal.fire('Incorrect!', 'Try again.', 'error');
@@ -80,7 +76,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
         const feature = layer.feature as Feature<Geometry, GeoJsonProperties>;
         const countryName = feature.properties?.name;
 
-        // Ne changez pas le style si le pays est verrouillé
         if (countryName && lockedCountries.includes(countryName)) {
           return;
         }
@@ -100,7 +95,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
         const feature = layer.feature as Feature<Geometry, GeoJsonProperties>;
         const countryName = feature.properties?.name;
 
-        // Ne réinitialisez pas le style si le pays est verrouillé
         if (countryName && lockedCountries.includes(countryName)) {
           layer.setStyle({ fillColor: 'green', fillOpacity: 1 });
           return;
@@ -122,6 +116,7 @@ const MapComponent: React.FC = () => {
   const [lockedCountries, setLockedCountries] = useState<string[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(5);
+  const [playerName, setPlayerName] = useState<string>('');
   const MySwal = withReactContent(Swal);
 
   useEffect(() => {
@@ -137,6 +132,10 @@ const MapComponent: React.FC = () => {
   }, [gameStarted, timeLeft]);
 
   const startGame = () => {
+    if (!playerName) {
+      MySwal.fire('Error', 'Please enter your name to start the game.', 'error');
+      return;
+    }
     setTimeLeft(5); // Reset the timer when the game starts
     setLockedCountries([]); // Reset locked countries
     setGameStarted(true);
@@ -144,20 +143,10 @@ const MapComponent: React.FC = () => {
 
   const endGame = async () => {
     setGameStarted(false);
+    console.log('Game ended, saving score...');
 
-    // Get the user information (replace this with your actual user fetching logic)
-    const userId = '410544b2-4001-4271-9855-fec4b6a6442a'; // Example user ID
-    const userName = 'User'; // Example user name
-
-    // Save the score to the database
-    const pool = createPool({ connectionString: process.env.POSTGRES_URL });
-    const client = await pool.connect();
-    await client.sql`
-      INSERT INTO classement_map (idclassement, idUtilisateurs, score, date_classement)
-      VALUES (DEFAULT, ${userId}, ${lockedCountries.length}, CURRENT_TIMESTAMP);
-    `;
-    client.release();
-
+    const result = await saveUserScore(playerName, lockedCountries.length);
+    console.log('Save result:', result);
     MySwal.fire({
       title: 'Game Over!',
       text: `You discovered ${lockedCountries.length} countries.`,
@@ -174,11 +163,28 @@ const MapComponent: React.FC = () => {
 
   return (
     <div style={{ position: 'relative', textAlign: 'center' }}>
+      <input
+        type="text"
+        placeholder="Enter your name"
+        value={playerName}
+        onChange={(e) => setPlayerName(e.target.value)}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          padding: '10px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          boxShadow: '0px 2px 5px rgba(0,0,0,0.3)'
+        }}
+      />
       <button
         onClick={startGame}
         style={{
           position: 'absolute',
-          top: '10px',
+          top: '50px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1000,
@@ -197,7 +203,7 @@ const MapComponent: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          top: '50px',
+          top: '90px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 1000,
@@ -213,7 +219,7 @@ const MapComponent: React.FC = () => {
         zoom={2}
         minZoom={1}
         maxZoom={12}
-        style={{ height: '768px', width: '1024px', margin: '0 auto', marginTop: '100px' }}
+        style={{ height: '768px', width: '1024px', margin: '0 auto', marginTop: '150px' }}
         maxBounds={[
           [-90, -180],
           [90, 180]

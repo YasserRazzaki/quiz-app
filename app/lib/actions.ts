@@ -56,3 +56,29 @@ export async function createUser(prevState: any, formData: FormData) {
     };
   }
 }
+
+const connectionString = process.env.POSTGRES_URL;
+
+if (!connectionString) {
+throw new Error('Missing PostgreSQL connection string');
+}
+
+export async function saveUserScore(playerName: string, score: number) {
+  try {
+    console.log(`Saving score for player: ${playerName} with score: ${score}`);
+    console.log('Postgres URL:', connectionString);
+
+    await sql`
+      INSERT INTO classement_map (username, score, date_classement)
+      VALUES (${playerName}, ${score}, CURRENT_TIMESTAMP)
+    `;
+
+    console.log('Score saved successfully!');
+    return { message: 'Score saved successfully!' };
+  } catch (error) {
+    console.error('Failed to save score:', error);
+    return {
+      message: `Database Error: Failed to save score. Error: ${error.message}`,
+    };
+  }
+}

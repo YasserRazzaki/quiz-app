@@ -6,10 +6,10 @@ const MapComponent = dynamic(() => import('../../components/MapComponent'), { ss
 
 const Home = () => {
   return (
-    <div>
-      <h1>Guess the Country</h1>
+    <div className='min-h-screen flex items-center justify-center'>
+      <div><h1 className='text-2xl font-bold mb-4 mt-4 flex items-center justify-center'>Guess the Country</h1>
       <MapComponent />
-    </div>
+    </div></div>
   );
 };
 

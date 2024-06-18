@@ -1,24 +1,35 @@
-"use server"
-import { sql } from '@vercel/postgres';
-import { RankingMap, utilisateurs } from './definitions';
+'use server';
 
-export async function getUser(email: string): Promise<utilisateurs> {
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
+import { sql } from '@vercel/postgres';
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
   try {
-    const user = await sql`SELECT * FROM utilisateurs WHERE email=${email}`;
-    return user.rows[0] as utilisateurs;
+    await signIn('credentials', formData);
   } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
   }
 }
 
-export async function getRankingsMap(): Promise<RankingMap[]> {
+export async function saveScore(userId: string, userName: string, score: number) {
   try {
     const rankings = await sql`SELECT * FROM classement_map`;
     return rankings.rows as RankingMap[];
   } catch (error) {
-    console.error('Failed to fetch rankings:', error);
-    throw new Error('Failed to fetch rankings.');
+    console.error('Failed to save score:', error);
+    throw new Error('Failed to save score.');
   }
 }
 

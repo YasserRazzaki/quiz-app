@@ -78,7 +78,7 @@ export async function saveUserScore(playerName: string, score: number) {
   } catch (error) {
     console.error('Failed to save score:', error);
     return {
-      message: `Database Error: Failed to save score. Error: ${error.message}`,
+      message: `Database Error: Failed to save score. Error: ${error}`,
     };
   }
 }

@@ -39,24 +39,24 @@ const Rankings = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-4 space-y-8">
-      <div className="w-full max-w-4xl">
-        <h1 className="text-2xl font-bold mb-4">Rankings API</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 space-y-8">
+      <div className="w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">Rankings API</h1>
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <table className="w-full table-auto bg-white border border-gray-300 mb-8">
+          <table className="w-full bg-white border border-gray-300 mb-8">
             <thead>
               <tr>
-                <th className="py-2 border border-gray-300">Username</th>
-                <th className="py-2 border border-gray-300">Score</th>
+                <th className="py-2 border border-gray-300 text-center">Username</th>
+                <th className="py-2 border border-gray-300 text-center">Score</th>
               </tr>
             </thead>
             <tbody>
               {rankingsAPI.map((ranking, index) => (
                 <tr key={index}>
-                  <td className="py-2 border border-gray-300">{ranking.username}</td>
-                  <td className="py-2 border border-gray-300">{ranking.score}</td>
+                  <td className="py-2 border border-gray-300 text-center">{ranking.username}</td>
+                  <td className="py-2 border border-gray-300 text-center">{ranking.score}</td>
                 </tr>
               ))}
             </tbody>
@@ -64,23 +64,23 @@ const Rankings = () => {
         )}
       </div>
 
-      <div className="w-full max-w-4xl">
-        <h1 className="text-2xl font-bold mb-4">Ranking Map</h1>
+      <div className="w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">Ranking Map</h1>
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <table className="w-full table-auto bg-white border border-gray-300">
+          <table className="w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 border border-gray-300">Username</th>
-                <th className="py-2 border border-gray-300">Score</th>
+                <th className="py-2 border border-gray-300 text-center">Username</th>
+                <th className="py-2 border border-gray-300 text-center">Score</th>
               </tr>
             </thead>
             <tbody>
               {rankingMap.map((ranking, index) => (
                 <tr key={index}>
-                  <td className="py-2 border border-gray-300">{ranking.username}</td>
-                  <td className="py-2 border border-gray-300">{ranking.score}</td>
+                  <td className="py-2 border border-gray-300 text-center">{ranking.username}</td>
+                  <td className="py-2 border border-gray-300 text-center">{ranking.score}</td>
                 </tr>
               ))}
             </tbody>

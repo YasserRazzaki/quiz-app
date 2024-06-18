@@ -3,8 +3,7 @@
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { sql } from '@vercel/postgres';
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
+import bcrypt from 'bcrypt';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -24,7 +23,7 @@ export async function authenticate(
     throw error;
   }
 }
-import bcrypt from 'bcrypt';
+
 
 export async function createUser(prevState: any, formData: FormData) {
   const nom = formData.get('nom') as string;

@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState} from 'react';
-import { getRankings } from '../../lib/data';
+import { getRankingsApi } from '../../lib/data';
 import { RankingMap } from '../../lib/definitions';
 
 const Rankings = () => {
@@ -9,7 +9,7 @@ const Rankings = () => {
   useEffect(() => {
     const fetchRankings = async () => {
       try {
-        const data = await getRankings();
+        const data = await getRankingsApi();
         setRankings(data);
       } catch (error) {
         console.error('Failed to fetch rankings:', error);

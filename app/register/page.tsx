@@ -52,7 +52,7 @@ const RegisterPage = () => {
       Swal.fire({
         icon: 'error',
         title: 'Erreur',
-        text: `Une erreur est survenue. Veuillez réessayer plus tard. Erreur: ${error.message}`,
+        text: `Une erreur est survenue. Veuillez réessayer plus tard. Erreur: ${error}`,
       });
     }
   };

@@ -40,7 +40,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
         const countryName = feature.properties?.name;
 
         if (countryName && lockedCountries.includes(countryName)) {
-          (layer as L.Path).setStyle({ fillColor: 'green', fillOpacity: 1 });
+          (layer as L.Path).setStyle({ fillColor: 'grey', fillOpacity: 1 });
         }
 
         layer.on({
@@ -57,7 +57,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
             if (enteredName && countryName) {
               if (enteredName.toLowerCase() === countryName.toLowerCase()) {
                 MySwal.fire('Correct!', '', 'success');
-                (layer as L.Path).setStyle({ fillColor: 'green', fillOpacity: 1 });
+                (layer as L.Path).setStyle({ fillColor: 'grey', fillOpacity: 1 });
                 setLockedCountries((prev) => [...prev, countryName]);
                 layer.off('click');
               } else {
@@ -96,7 +96,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
         const countryName = feature.properties?.name;
 
         if (countryName && lockedCountries.includes(countryName)) {
-          layer.setStyle({ fillColor: 'green', fillOpacity: 1 });
+          layer.setStyle({ fillColor: 'grey', fillOpacity: 1 });
           return;
         }
       }
@@ -115,7 +115,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ geojsonData, lockedCoun
 const MapComponent: React.FC = () => {
   const [lockedCountries, setLockedCountries] = useState<string[]>([]);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState<number>(5);
+  const [timeLeft, setTimeLeft] = useState<number>(60);
   const [playerName, setPlayerName] = useState<string>('');
   const MySwal = withReactContent(Swal);
 
@@ -136,7 +136,7 @@ const MapComponent: React.FC = () => {
       MySwal.fire('Error', 'Please enter your name to start the game.', 'error');
       return;
     }
-    setTimeLeft(5); // Reset the timer when the game starts
+    setTimeLeft(60); // Reset the timer when the game starts
     setLockedCountries([]); // Reset locked countries
     setGameStarted(true);
   };
@@ -166,51 +166,19 @@ const MapComponent: React.FC = () => {
       <input
         type="text"
         placeholder="Enter your name"
+        className='px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mr-4'
         value={playerName}
         onChange={(e) => setPlayerName(e.target.value)}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          padding: '10px',
-          fontSize: '16px',
-          borderRadius: '5px',
-          boxShadow: '0px 2px 5px rgba(0,0,0,0.3)'
-        }}
+       
       />
       <button
         onClick={startGame}
-        style={{
-          position: 'absolute',
-          top: '50px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          padding: '10px 20px',
-          fontSize: '16px',
-          cursor: 'pointer',
-          backgroundColor: '#28a745',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          boxShadow: '0px 2px 5px rgba(0,0,0,0.3)'
-        }}
+        className='btn btn-error text-white mb-8'
       >
         Start Quiz
-      </button>
+      </button><br></br>
       <div
-        style={{
-          position: 'absolute',
-          top: '90px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          fontSize: '24px',
-          fontWeight: 'bold',
-          color: '#333'
-        }}
+        className='btn btn-info text-white'
       >
         Time Left: {timeLeft}
       </div>
@@ -219,7 +187,7 @@ const MapComponent: React.FC = () => {
         zoom={2}
         minZoom={1}
         maxZoom={12}
-        style={{ height: '768px', width: '1024px', margin: '0 auto', marginTop: '150px' }}
+        style={{ height: '768px', width: '1024px', margin: '0 auto', marginTop: '50px' }}
         maxBounds={[
           [-90, -180],
           [90, 180]

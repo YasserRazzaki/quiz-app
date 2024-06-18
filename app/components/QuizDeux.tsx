@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect } from 'react';
 
 interface QuizDeuxProps {
   question: string;
@@ -35,8 +35,8 @@ const QuizDeux: FC<QuizDeuxProps> = ({
   };
 
   return (
-    <div className="card shadow-lg p-4 mb-4">
-      <h2 className="text-xl font-semibold mb-2">{question}</h2>
+    <div className="card mb-4 p-4 shadow-lg">
+      <h2 className="mb-2 text-xl font-semibold">{question}</h2>
       <div className="flex flex-col space-y-2">
         {shuffledOptions.map((option) => (
           <button
@@ -45,11 +45,11 @@ const QuizDeux: FC<QuizDeuxProps> = ({
             className={`btn ${
               isAnswered
                 ? option === correctAnswer
-                  ? "bg-green-500 text-white"
+                  ? 'bg-green-500 text-white'
                   : option === selectedAnswer
-                  ? "bg-red-500 text-white"
-                  : "bg-gray-300 text-black cursor-not-allowed no-hover"
-                : "bg-blue-500 text-white hover:bg-blue-700"
+                  ? 'bg-red-500 text-white'
+                  : 'no-hover cursor-not-allowed bg-gray-300 text-black'
+                : 'bg-blue-500 text-white hover:bg-blue-700'
             }`}
             disabled={
               isAnswered &&

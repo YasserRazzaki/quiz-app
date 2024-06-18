@@ -20,7 +20,7 @@ const Rankings = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="flex flex-col items-center justify-center bg-gray-100">
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-4">Rankings</h1>
         <ul className="mb-4">

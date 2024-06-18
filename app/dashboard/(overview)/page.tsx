@@ -13,7 +13,7 @@ export default async function Page() {
       <Link href="/dashboard/quiz-bdd" legacyBehavior>
         <a className="btn btn-success text-white">Start Map Quiz</a>
       </Link>
-      <Link href="/dashboard/results" legacyBehavior>
+      <Link href="/dashboard/rankings" legacyBehavior>
         <a className="btn btn-error text-white">View Results</a>
       </Link>
     </div></div></div>

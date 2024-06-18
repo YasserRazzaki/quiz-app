@@ -52,7 +52,7 @@ export async function createUser(prevState: any, formData: FormData) {
   } catch (error) {
     console.error('Failed to create user:', error);
     return {
-      message: `Database Error: Failed to create user. Error: ${error.message}`,
+      message: `Database Error: Failed to create user. Error: ${error}`,
     };
   }
 }

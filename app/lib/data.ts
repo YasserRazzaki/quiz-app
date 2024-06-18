@@ -74,7 +74,7 @@ export async function recordRanking(ranking: Ranking): Promise<void> {
 
 export async function getRankings(): Promise<Ranking[]> {
   try {
-    const rankings = await sql`SELECT * FROM classement`;
+    const rankings = await pool.query(`SELECT * FROM classement`);
     return rankings.rows as Ranking[];
   } catch (error) {
     console.error('Failed to fetch rankings:', error);

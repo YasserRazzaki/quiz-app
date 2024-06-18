@@ -21,13 +21,16 @@ export default function DashboardLayout({
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link href="/dashboard" legacyBehavior>
-                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Tableau de board</a>
+                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
                 </Link>
                 <Link href="/dashboard/quiz-api" legacyBehavior>
-                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Quiz API</a>
+                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">API Quiz</a>
                 </Link>
                 <Link href="/dashboard/quiz-bdd" legacyBehavior>
-                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Quiz BDD</a>
+                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Map Quiz</a>
+                </Link>
+                <Link href="/dashboard/rankings" legacyBehavior>
+                  <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Results</a>
                 </Link>
                 <form
                   action={async () => {
@@ -36,7 +39,7 @@ export default function DashboardLayout({
                   }}
                 >
                   <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    <div className="hidden md:block">Sign Out</div>
+                    <div className="hidden md:block">Log Out</div>
                   </button>
                 </form>
               </div>

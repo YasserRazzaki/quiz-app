@@ -1,5 +1,4 @@
 "use client";
-import LogoutButton from '@/app/ui/logout-button';
 import Link from 'next/link';
 
 export default async function Page() { 
@@ -12,12 +11,11 @@ export default async function Page() {
         <a className="btn btn-primary text-white">Start API Quiz</a>
       </Link>
       <Link href="/dashboard/quiz-bdd" legacyBehavior>
-        <a className="btn btn-success text-white">Start Database Quiz</a>
+        <a className="btn btn-success text-white">Start Map Quiz</a>
       </Link>
       <Link href="/dashboard/results" legacyBehavior>
         <a className="btn btn-error text-white">View Results</a>
       </Link>
-      <LogoutButton />
     </div></div></div>
   );
 }

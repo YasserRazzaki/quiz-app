@@ -14,28 +14,26 @@ export type utilisateurs = {
   date_inscription: Date;  
 };
 
-export interface Quiz {
+export type Quiz = {
   id: string;
   title: string;
   description: string;
   numberOfQuestions: number;
   timeLimit: number;
-}
+};
 
-export interface Question {
+export type Question = {
   id: string;
   text: string;
   quizId: string;
-  options?: Response[];
-}
+};
 
-export interface Response {
+export type Response = {
   id: string;
   text: string;
   isCorrect: boolean;
   questionId: string;
-}
-
+};
 
 export type Ranking = {
   id: string;

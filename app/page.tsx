@@ -4,10 +4,10 @@ export default async function Page() {
   return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="p-4">
-    <h1 className="text-2xl font-bold mb-4">You are not connected, please log in !</h1>
+    <h1 className="text-2xl font-bold mb-4">You are not connected, please Log in !</h1>
     <div className="flex flex-col space-y-4">
       <Link href="/login" legacyBehavior>
-        <a className="btn btn-primary text-white">login</a>
+        <a className="btn btn-primary text-white">Login</a>
       </Link>
     </div></div></div>
   );

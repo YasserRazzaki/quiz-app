@@ -32,7 +32,7 @@ const Rankings = () => {
     fetchRankings();
 
     // Rafraîchir les données toutes les 60 secondes (60000 ms)
-    const refreshInterval = setInterval(fetchRankings, 300);
+    const refreshInterval = setInterval(fetchRankings, 10000);
 
     // Nettoyer l'intervalle lors du démontage du composant
     return () => clearInterval(refreshInterval);

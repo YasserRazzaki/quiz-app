@@ -1,11 +1,3 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  date_inscription:Date;
-};
-
 export type utilisateurs = {
   idutilisateurs: string;
   nom: string;

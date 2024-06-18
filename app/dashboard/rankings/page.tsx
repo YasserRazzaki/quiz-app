@@ -48,7 +48,7 @@ const Rankings = () => {
         <ul className="mb-4">
           {rankings.map((ranking) => (
             <li key={ranking.id}>
-              User ID: {ranking.userId}, Quiz ID: {ranking.quizId}, Score: {ranking.score}, Date: {ranking.rankingDate.toString()}
+              User ID: {ranking.userId}, Quiz ID: {ranking.quizId}, Score: {ranking.score}
             </li>
           ))}
         </ul>

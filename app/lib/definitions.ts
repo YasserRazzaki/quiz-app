@@ -8,14 +8,14 @@ export type utilisateurs = {
 
 export type RankingMap = {
   id: number;
-  userId: string;
+  username: string;
   score: number;
   rankingDate: Date;
 };
 
 export type RankingAPI = {
   id: number;
-  userId: string;
+  username: string;
   score: number;
   rankingDate: Date;
 };

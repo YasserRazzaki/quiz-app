@@ -14,7 +14,7 @@ export async function getUser(email: string): Promise<utilisateurs> {
 
 export async function getRankingsMap(): Promise<RankingMap[]> {
   try {
-    const rankings = await sql`SELECT * FROM classement`;
+    const rankings = await sql`SELECT * FROM classement_map`;
     return rankings.rows as RankingMap[];
   } catch (error) {
     console.error('Failed to fetch rankings:', error);
@@ -24,7 +24,7 @@ export async function getRankingsMap(): Promise<RankingMap[]> {
 
 export async function getRankingsApi(): Promise<RankingMap[]> {
   try {
-    const rankings = await sql`SELECT * FROM classement`;
+    const rankings = await sql`SELECT * FROM classement_api`;
     return rankings.rows as RankingMap[];
   } catch (error) {
     console.error('Failed to fetch rankings:', error);

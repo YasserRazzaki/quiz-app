@@ -1,5 +1,5 @@
 const { db } = require('@vercel/postgres');
-const { users,rankings, rankingsMap, rankingsAPI } = require('../app/lib/placeholder-data.js');  // Make sure the path is correct
+const { users,rankingsMap, rankingsAPI } = require('../app/lib/placeholder-data.js');  // Make sure the path is correct
 const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
@@ -33,10 +33,9 @@ async function seedRankingsMap(client) {
   await client.sql`
     CREATE TABLE IF NOT EXISTS classement_map (
       idclassement INT PRIMARY KEY,
-      idUtilisateurs VARCHAR(50),
+      username VARCHAR(50),
       score INT,
-      date_classement TIMESTAMP,
-      FOREIGN KEY(idUtilisateurs) REFERENCES utilisateurs(idUtilisateurs)
+      date_classement TIMESTAMP
     );
   `;
 
@@ -44,8 +43,8 @@ async function seedRankingsMap(client) {
 
   const insertedRankings = await Promise.all(
     rankingsMap.map(ranking => client.sql`
-      INSERT INTO classement_map (idclassement, idUtilisateurs,score, date_classement)
-      VALUES (${ranking.id}, ${ranking.userId}, ${ranking.score}, CURRENT_TIMESTAMP)
+      INSERT INTO classement_map (idclassement, username,score, date_classement)
+      VALUES (${ranking.id}, ${ranking.username}, ${ranking.score}, CURRENT_TIMESTAMP)
       ON CONFLICT (idclassement) DO NOTHING;
     `)
   );
@@ -57,10 +56,9 @@ async function seedRankingsAPI(client) {
   await client.sql`
     CREATE TABLE IF NOT EXISTS classement_api (
       idclassement INT PRIMARY KEY,
-      idUtilisateurs VARCHAR(50),
+      username VARCHAR(50),
       score INT,
-      date_classement TIMESTAMP,
-      FOREIGN KEY(idUtilisateurs) REFERENCES utilisateurs(idUtilisateurs)
+      date_classement TIMESTAMP
     );
   `;
 
@@ -68,8 +66,8 @@ async function seedRankingsAPI(client) {
 
   const insertedRankings = await Promise.all(
     rankingsAPI.map(ranking => client.sql`
-      INSERT INTO classement_api (idclassement, idUtilisateurs,score, date_classement)
-      VALUES (${ranking.id}, ${ranking.userId}, ${ranking.score}, CURRENT_TIMESTAMP)
+      INSERT INTO classement_api (idclassement, username,score, date_classement)
+      VALUES (${ranking.id}, ${ranking.username}, ${ranking.score}, CURRENT_TIMESTAMP)
       ON CONFLICT (idclassement) DO NOTHING;
     `)
   );

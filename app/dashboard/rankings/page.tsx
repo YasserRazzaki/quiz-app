@@ -1,10 +1,10 @@
 "use client"
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { getRankingsApi } from '../../lib/data';
-import { RankingMap } from '../../lib/definitions';
+import { RankingAPI } from '../../lib/definitions';
 
 const Rankings = () => {
-  const [rankings, setRankings] = useState<RankingMap[]>([]);
+  const [rankingsAPI, setRankings] = useState<RankingAPI[]>([]);
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -20,16 +20,27 @@ const Rankings = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100">
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Rankings</h1>
-        <ul className="mb-4">
-          {rankings.map((ranking) => (
-            <li key={ranking.id}>
-              User ID: {ranking.userId}, Score: {ranking.score}
-            </li>
-          ))}
-        </ul>
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-4">
+      <h1 className="text-2xl font-bold mb-4">Rankings</h1>
+      <div className="w-full">
+        <table className="min-w-full items table-auto bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th className="py-2 border border-gray-300">Id</th>
+              <th className="py-2 border border-gray-300">Username</th>
+              <th className="py-2 border border-gray-300">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rankingsAPI.map((ranking) => (
+              <tr key={ranking.id}>
+                <td className="py-2 border border-gray-300">{ranking.id}</td>
+                <td className="py-2 border border-gray-300">{ranking.username}</td>
+                <td className="py-2 border border-gray-300">{ranking.score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

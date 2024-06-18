@@ -55,13 +55,13 @@ const users = [
 const rankingsMap = [
   {
     id: 1,
-    userId: '410544b2-4001-4271-9855-fec4b6a6442a',
+    username: 'leo',
     score: 500,
     rankingDate: new Date()
   },
   {
     id: 2,
-    userId: '12345678-1234-1234-1234-123456789abc',
+    username: 'Thomas',
     score: 400,
     rankingDate: new Date()
   }
@@ -70,13 +70,13 @@ const rankingsMap = [
 const rankingsAPI = [
   {
     id: 1,
-    userId: '410544b2-4001-4271-9855-fec4b6a6442a',
+    username: 'Yasser',
     score: 500,
     rankingDate: new Date()
   },
   {
     id: 2,
-    userId: '12345678-1234-1234-1234-123456789abc',
+    username: 'Sally',
     score: 400,
     rankingDate: new Date()
   }

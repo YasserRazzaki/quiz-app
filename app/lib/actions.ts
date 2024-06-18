@@ -2,6 +2,9 @@
 
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { sql } from '@vercel/postgres';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -19,5 +22,35 @@ export async function authenticate(
       }
     }
     throw error;
+  }
+}
+
+export async function createUser(prevState: any, formData: FormData) {
+  const nom = formData.get('nom') as string;
+  const email = formData.get('email') as string;
+  const motdepasse = formData.get('motdepasse') as string;
+
+  if (!nom || !email || !motdepasse) {
+    return {
+      message: 'All fields are required.',
+      errors: {
+        nom: !nom ? 'Name is required' : undefined,
+        email: !email ? 'Email is required' : undefined,
+        motdepasse: !motdepasse ? 'Password is required' : undefined,
+      },
+    };
+  }
+
+  try {
+    await sql`
+      INSERT INTO inscrits (nom, email, motdepasse)
+      VALUES (${nom}, ${email}, ${motdepasse})
+    `;
+    return { message: 'User created successfully!' };
+  } catch (error) {
+    console.error('Failed to create user:', error);
+    return {
+      message: `Database Error: Failed to create user. Error: ${error.message}`,
+    };
   }
 }

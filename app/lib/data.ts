@@ -1,11 +1,21 @@
 "use server"
 import { sql } from '@vercel/postgres';
-import { RankingMap, utilisateurs } from './definitions';
+import { RankingMap, utilisateurs, inscrits } from './definitions';
 
 export async function getUser(email: string): Promise<utilisateurs> {
   try {
     const user = await sql`SELECT * FROM utilisateurs WHERE email=${email}`;
     return user.rows[0] as utilisateurs;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function getInscrits(email: string): Promise<inscrits> {
+  try {
+    const user = await sql`SELECT * FROM inscrits WHERE email=${email}`;
+    return user.rows[0] as inscrits;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');

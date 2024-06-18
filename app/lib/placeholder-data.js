@@ -82,7 +82,15 @@ const rankingsAPI = [
   }
 ];
 
+const inscrits = [
+  {
+    id: 1,
+    name: 'User',
+    email: 'user@nextmail.com',
+    password: '123456',
+  },
+]
+
 module.exports = {
-  users,
-  rankingsMap, rankingsAPI
+  users,inscrits,rankingsMap, rankingsAPI
 };

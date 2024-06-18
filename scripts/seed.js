@@ -1,5 +1,5 @@
 const { db } = require('@vercel/postgres');
-const { users,rankingsMap, rankingsAPI } = require('../app/lib/placeholder-data.js');  // Make sure the path is correct
+const { users,rankingsMap, rankingsAPI, inscrits } = require('../app/lib/placeholder-data.js');  // Make sure the path is correct
 const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
@@ -19,14 +19,41 @@ async function seedUsers(client) {
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
       return client.sql`
-        INSERT INTO utilisateurs (idUtilisateurs, nom, email, motdepasse)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        INSERT INTO utilisateurs (idUtilisateurs, nom, email, motdepasse, date_inscription)
+        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}, CURRENT_TIMESTAMP )
         ON CONFLICT (idUtilisateurs) DO NOTHING;
       `;
     }),
   );
 
   console.log(`Seeded ${insertedUsers.length} users`);
+}
+
+async function seedInscrits(client) {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS inscrits (
+     id SERIAL PRIMARY KEY,
+  nom VARCHAR(50),
+  email VARCHAR(50) UNIQUE,
+  motdepasse TEXT NOT NULL,
+  date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+ `;
+
+  console.log(`Created "inscrits" table`);
+
+  const insertedInscrits = await Promise.all(
+    inscrits.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      return client.sql`
+        INSERT INTO inscrits (id, nom, email, motdepasse, date_inscription)
+        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}, CURRENT_TIMESTAMP)
+        ON CONFLICT (id) DO NOTHING;
+      `;
+    }),
+  );
+
+  console.log(`Seeded ${insertedInscrits.length} users`);
 }
 
 async function seedRankingsMap(client) {
@@ -81,6 +108,7 @@ async function main() {
   await seedUsers(client);
   await seedRankingsMap(client);
   await seedRankingsAPI(client);
+  await seedInscrits(client);
   await client.end();
 }
 

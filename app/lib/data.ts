@@ -1,6 +1,6 @@
 "use server"
 import { sql } from '@vercel/postgres';
-import { RankingMap, utilisateurs, inscrits } from './definitions';
+import { RankingMap, utilisateurs, inscrits, RankingAPI } from './definitions';
 
 export async function getUser(email: string): Promise<utilisateurs> {
   try {
@@ -32,10 +32,10 @@ export async function getRankingsMap(): Promise<RankingMap[]> {
   }
 }
 
-export async function getRankingsApi(): Promise<RankingMap[]> {
+export async function getRankingsApi(): Promise<RankingAPI[]> {
   try {
     const rankings = await sql`SELECT * FROM classement_api`;
-    return rankings.rows as RankingMap[];
+    return rankings.rows as RankingAPI[];
   } catch (error) {
     console.error('Failed to fetch rankings:', error);
     throw new Error('Failed to fetch rankings.');

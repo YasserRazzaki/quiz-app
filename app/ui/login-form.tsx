@@ -1,6 +1,9 @@
 'use client';
-import '@/app/ui/global.css';import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import '@/app/ui/global.css';
+// login.tsx
+import { useState } from 'react';
+import { useRouter } from 'next/router'; // Importer le router de Next.js
+import { authenticate } from '@/app/lib/actions'; // Importer votre fonction d'authentification personnalisée
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -10,23 +13,26 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
 
 export default function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const router = useRouter(); // Initialiser le router de Next.js
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    try {
+      const user = await authenticate(email, password); // Appel à votre fonction d'authentification
 
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result) {
-      setErrorMessage('Invalid credentials. Please try again.');
+      if (!user) {
+        setErrorMessage('Invalid credentials. Please try again.');
+      } else {
+        // Redirection vers la page de tableau de bord après une connexion réussie
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
+      setErrorMessage('Authentication error. Please try again later.');
     }
   };
 
@@ -44,6 +50,8 @@ export default function LoginForm() {
                 type="email"
                 id="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-none placeholder-gray-500"
                 required
@@ -60,6 +68,8 @@ export default function LoginForm() {
                 type="password"
                 id="password"
                 name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-none placeholder-gray-500"
                 required
@@ -69,7 +79,7 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <Button className="mt-4 w-full" type="submit">
+        <Button type="submit" className="mt-4 w-full">
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         {errorMessage && (

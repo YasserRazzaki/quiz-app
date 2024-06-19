@@ -1,9 +1,8 @@
-'use client';
-import '@/app/ui/global.css';
-// login.tsx
+// login-form.tsx
+"use client"
 import { useState } from 'react';
-import { useRouter } from 'next/router'; // Importer le router de Next.js
-import { authenticate } from '@/app/lib/actions'; // Importer votre fonction d'authentification personnalisée
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -15,24 +14,28 @@ import { Button } from '@/app/ui/button';
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const router = useRouter(); // Initialiser le router de Next.js
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     try {
-      const user = await authenticate(email, password); // Appel à votre fonction d'authentification
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false, // Redirection manuelle après la connexion réussie
+      });
 
-      if (!user) {
+      if (result) {
         setErrorMessage('Invalid credentials. Please try again.');
       } else {
-        // Redirection vers la page de tableau de bord après une connexion réussie
-        router.push('/dashboard');
+        router.push('/dashboard'); // Redirection vers le dashboard après la connexion réussie
       }
     } catch (error) {
-      console.error('Authentication error:', error);
-      setErrorMessage('Authentication error. Please try again later.');
+      console.error('Sign in error:', error);
+      setErrorMessage('Sign in failed. Please try again later.');
     }
   };
 
